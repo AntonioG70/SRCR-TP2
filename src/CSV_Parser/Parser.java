@@ -9,57 +9,72 @@ import java.io.IOException;
 
 public class Parser{
 
-    public static void removeAcc(String s){
-       
-        for(int i = 0; i < s.length(); i++){
-            if(s.charAt(i) == 'á') {s.replace('á', 'a');}
-            if(s.charAt(i) == 'à') {s.replace('à', 'a');}
-            if(s.charAt(i) == 'é') {s.replace('é', 'e');}
-            if(s.charAt(i) == 'è') {s.replace('è', 'e');}
-            if(s.charAt(i) == 'í') {s.replace('í', 'i');}
-            if(s.charAt(i) == 'ì') {s.replace('ì', 'i');}
-            if(s.charAt(i) == 'ó') {s.replace('ó', 'o');}
-            if(s.charAt(i) == 'ò') {s.replace('ò', 'o');}
-            if(s.charAt(i) == 'ú') {s.replace('ú', 'u');}
-            if(s.charAt(i) == 'ù') {s.replace('ù', 'u');}
-            if(s.charAt(i) == ',') {s.replace(',', ' ');}
-        } 
-    }
-
      public static void main(String[] args) {
 
-        String csvFile = "C:/Users/anton/Onedrive/Documentos/GitHub/SRCR-TP2/src/CSV_Parser/paragem_autocarros_oeiras.csv";
+        String csvFile = "C:/Users/anton/Onedrive/Documentos/GitHub/SRCR-TP2/src/CSV_Parser/lista_adjacencias_paragens.csv";
         BufferedReader br = null;
+        BufferedReader br2 = null;
         String line = "";
+        String line2 = "";
         String cvsSplitBy = ";";
-        int index = 10;
+        String p1 = "";
 
         try {
             FileWriter fileWriter = new FileWriter("C:/Users/anton/Onedrive/Documentos/GitHub/SRCR-TP2/src/base_de_conhecimento.pl");
             PrintWriter printWriter = new PrintWriter(fileWriter);
+            br2 = new BufferedReader(new FileReader(csvFile));
             br = new BufferedReader(new FileReader(csvFile));
-            while ((line = br.readLine()) != null) {
+            br.readLine();
+            br2.readLine();
 
-                String[] info = line.split(cvsSplitBy);
-                boolean inBounds = (index >= 0) && (index < info.length);
+
+            while ((line2 = br2.readLine()) != null) {
+
+                String[] info = line2.split(cvsSplitBy);
+
+                System.out.println("paragem" + "(" + info[0].toLowerCase() + "," + info[1].toLowerCase() + "," +  info[2].toLowerCase() + "," + info[3].toLowerCase() + "," + "'" +
+                info[4].toLowerCase() + "'" + "," + info[5].toLowerCase() + "," + info[6].toLowerCase() + "," + info[7].toLowerCase() + "," + info[8].toLowerCase() + "," + "'" +
+                info[9].toLowerCase() + "'" + "," + "'" + info[10].toLowerCase() + "'" + ").\n");
+                printWriter.printf("paragem" + "(" + info[0].toLowerCase() + "," + info[1].toLowerCase() + "," +  info[2].toLowerCase() + "," + info[3].toLowerCase() + "," + "'" +
+                info[4].toLowerCase() + "'" + "," + info[5].toLowerCase() + "," + info[6].toLowerCase() + "," + info[7].toLowerCase() + "," + info[8].toLowerCase() + "," + "'" +
+                info[9].toLowerCase() + "'" + "," + "'" + info[10].toLowerCase() + "'" + ").\n");
                 
-                for(int i = 0; i < info.length; i++){
-                    removeAcc(info[i]);
-                }
-
-                if(info[1].equals("latitude")){
-                    printWriter.printf("%% " + info[0].toLowerCase() + "," + info[1].toLowerCase() + "," + info[2].toLowerCase() + "," + info[3].toLowerCase() +"," + info[4].toLowerCase() + "," + info[5].toLowerCase() + "," +
-                info[6].toLowerCase() + "," + info[7].toLowerCase() + "," + info[8].toLowerCase() + "," + info[9].toLowerCase() + "," + info[10].toLowerCase() + "\n");
-                }
-
-                printWriter.printf("paragem(" + info[0].toLowerCase() + "," + info[1].toLowerCase() + "," + info[2].toLowerCase() + "," + info[3].toLowerCase() +"," + info[4].toLowerCase() + "," + info[5].toLowerCase() + "," +
-                info[6].toLowerCase() + "," + info[7].toLowerCase() + "," + info[8].toLowerCase() + "," + info[9].toLowerCase() + "," + info[10].toLowerCase() + ");\n");
-                System.out.println("paragem(" + info[0] + "," + info[1] + "," + info[2] + "," + info[3] +"," + info[4] + "," + info[5] + "," +
-                info[6] + "," + info[7] + "," + info[8] + "," + info[9] + "," + info[10] + ");\n");
-                
-               
-
             }
+            
+            line = br.readLine();
+            String[] info = line.split(cvsSplitBy);
+            String ultima = info[0];
+            String carreira = info[7];
+            line2 = br.readLine();
+            String[] info2 = line2.split(cvsSplitBy);
+            p1 = info2[0];
+            String carreira2 = info2[7];
+
+
+            while ((line = br.readLine()) != null) {
+                
+                if(carreira.equals(carreira2)){
+
+                    System.out.println("aresta" + "(" + ultima + "," + p1 + ");\n");
+                    printWriter.printf("aresta" + "(" + ultima + "," + p1 + ").\n");
+                    ultima = p1;
+                    info = line.split(cvsSplitBy);
+                    p1 = info[0];
+                    carreira = carreira2;
+                    carreira2 = info[7];
+                }
+                else{
+                    ultima = p1;
+                    info = line.split(cvsSplitBy);
+                    p1 = info[0];
+                    carreira = carreira2;
+                    carreira2 = info[7];
+                }
+        }
+
+        System.out.println("aresta" + "(" + ultima + "," + p1 + ");\n");
+        printWriter.printf("aresta" + "(" + ultima + "," + p1 + ").\n");
+
         printWriter.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -69,6 +84,13 @@ public class Parser{
             if (br != null) {
                 try {
                     br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (br2 != null) {
+                try {
+                    br2.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
