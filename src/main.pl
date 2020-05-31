@@ -6,11 +6,13 @@
 :- consult('base_de_conhecimento.pl').
 
 %aresta(paragem(183,-103678.36,-96590.26,'bom','fechado dos lados','yes','vimeca',1,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(791,-103705.46,-96673.6,'bom','aberto dos lados','yes','vimeca',1,286,'rua aquilino ribeiro','carnaxide e queijas')).
+%aresta(paragem(183,-103678.36,-96590.26,'bom','fechado dos lados','yes','vimeca',1,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(49,-103705.46,-96673.6,'bom','aberto dos lados','yes','vimeca',1,286,'rua aquilino ribeiro','carnaxide e queijas')).
 %aresta(paragem(791,-103705.46,-96673.6,'bom','aberto dos lados','yes','vimeca',1,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(595,-103725.69,-95975.2,'bom','fechado dos lados','yes','vimeca',1,354,'rua manuel teixeira gomes','carnaxide e queijas')).
-%aresta(paragem(595,-103725.69,-95975.2,'bom','fechado dos lados','yes','vimeca',1,354,'rua manuel teixeira gomes','carnaxide e queijas'),paragem(182,-103746.76,-96396.66,'bom','fechado dos lados','yes','scotturb',1,286,'rua aquilino ribeiro','carnaxide e queijas')).
-%aresta(paragem(182,-103746.76,-96396.66,'bom','fechado dos lados','yes','scotturb',1,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(499,-103758.44,-94393.36,'bom','fechado dos lados','yes','vimeca',1,300,'avenida dos cavaleiros','carnaxide e queijas')).
-%aresta(paragem(183,-103678.36,-96590.26,'bom','fechado dos lados','yes','vimeca',2,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(499,-103758.44,-94393.36,'bom','fechado dos lados','yes','vimeca',1,300,'avenida dos cavaleiros','carnaxide e queijas')).
+%aresta(paragem(791,-103725.69,-95975.2,'bom','fechado dos lados','yes','vimeca',1,354,'rua manuel teixeira gomes','carnaxide e queijas'),paragem(182,-103746.76,-96396.66,'bom','fechado dos lados','yes','scotturb',1,286,'rua aquilino ribeiro','carnaxide e queijas')).
+%aresta(paragem(182,-103746.76,-96396.66,'bom','fechado dos lados','yes','scotturb',1,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(595,-103758.44,-94393.36,'bom','fechado dos lados','yes','vimeca',1,300,'avenida dos cavaleiros','carnaxide e queijas')).
+%aresta(paragem(49,-103678.36,-96590.26,'bom','fechado dos lados','yes','vimeca',2,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(595,-103758.44,-94393.36,'bom','fechado dos lados','yes','vimeca',1,300,'avenida dos cavaleiros','carnaxide e queijas')).
 %paragem(594,-103879.91,-95751.23,'bom','fechado dos lados','no','vimeca',1,1116,'avenida professor dr. reinaldo dos santos','carnaxide e queijas').
+%aresta(paragem(183,-103678.36,-96590.26,'bom','fechado dos lados','yes','vimeca',1,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(595,-103705.46,-96673.6,'bom','aberto dos lados','yes','vimeca',1,286,'rua aquilino ribeiro','carnaxide e queijas')).
 :- multifile (-)/1.
 
 %Trajeto entre dois pontos
@@ -95,6 +97,23 @@ profundidadeComAbrigo(paragem(Origem,_,_,_,Abrigo,_,_,_,_,_,_), paragem(Destino,
     \+ member(AbrigoProx, ['sem abrigo']),
     \+ member(Prox, H),
     profundidadeComAbrigo(paragem(Prox,_,_,_,AbrigoProx,_,_,_,_,_,_), paragem(Destino,_,_,_,Abrigo2,_,_,_,_,_,_), [Prox|H], C).
+
+%Escolher um ou mais pontos intermédios por onde o percurso deverá passar
+percursoComPontos(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), L, C) :-
+    profundidadeComPontos(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), [Origem], L, C),
+    pertence(L, C).
+
+profundidadeComPontos(paragem(Destino,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), H, L, C) :- inverso(H,C).
+
+profundidadeComPontos(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), H, L, C) :-
+    aresta(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Prox,_,_,_,_,_,_,_,_,_,_)),
+    \+ member(Prox, H),
+    profundidadeComPontos(paragem(Prox,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), [Prox|H], L, C).
+
+
+
+pertence([],_).
+pertence([H|T],L):- pertence(T,L), member(H,L).
 
 getMaiores([], M, []).
 getMaiores([p(X,N)|T], M, [p(X,N)|NewT]) :-
