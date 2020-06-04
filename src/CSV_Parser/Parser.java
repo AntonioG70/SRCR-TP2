@@ -28,7 +28,7 @@ public class Parser{
             br.readLine();
             br2.readLine();
 
-            printWriter.printf(":- dynamic aresta/2.\n:- dynamic paragem/10.\n");
+            printWriter.printf(":- dynamic aresta/2.\n:- dynamic paragem/11.\n");
 
             while ((line2 = br2.readLine()) != null) {
 
@@ -83,12 +83,18 @@ public class Parser{
                       "," + "'" + p4.toLowerCase() + "'" + ","
                       + "'" + p5.toLowerCase() + "'" + "," + "'" + p6.toLowerCase() + "'" + "," + "'" + p7.toLowerCase() + "'" + "," + p8 + ","
                        + p9 + "," + "'" + p10.toLowerCase() + "'" + "," + "'" + p11.toLowerCase() + "'" + ");\n");
-                    printWriter.printf("aresta" + "(" + "paragem" + "(" + ultima + "," + ultima1 + "," + ultima2 + "," + "'" + ultima3.toLowerCase() + "'" + ","
-                    + "'" + ultima4.toLowerCase() + "'" + "," + "'" + ultima5.toLowerCase() + "'" + "," + "'" + ultima6.toLowerCase() + "'" + "," + ultima7 + ","
-                     + ultima8 + "," + "'" + ultima9.toLowerCase() + "'" + "," + "'" + ultima10.toLowerCase() + "'" + ")" +"," + "paragem" + "(" + p1 + "," + p2 + "," + p3 + 
-                     "," + "'" + p4.toLowerCase() + "'" + ","
-                     + "'" + p5.toLowerCase() + "'" + "," + "'" + p6.toLowerCase() + "'" + "," + "'" + p7.toLowerCase() + "'" + "," + p8 + ","
-                      + p9 + "," + "'" + p10.toLowerCase() + "'" + "," + "'" + p11.toLowerCase() + "'" + ")" + ").\n");
+                    printWriter.printf("aresta" + "(" + "paragem" + "(" + ultima + "," + ultima1 + "," + ultima2 + "," + "'" + ultima3 + "'" + ","
+                    + "'" + ultima4 + "'" + "," + "'" + ultima5 + "'" + "," + "'" + ultima6 + "'" + "," + ultima7 + ","
+                     + ultima8 + "," + "'" + ultima9 + "'" + "," + "'" + ultima10 + "'" + ")" +"," + "paragem" + "(" + p1 + "," + p2 + "," + p3 + 
+                     "," + "'" + p4 + "'" + ","
+                     + "'" + p5 + "'" + "," + "'" + p6 + "'" + "," + "'" + p7 + "'" + "," + p8 + ","
+                      + p9 + "," + "'" + p10 + "'" + "," + "'" + p11 + "'" + ")" + ").\n");
+                      printWriter.printf("aresta" + "(" + "paragem" + "(" + p1 + "," + p2 + "," + p3 + "," + "'" + p4 + "'" + ","
+                      + "'" + p5 + "'" + "," + "'" + p6 + "'" + "," + "'" + p7 + "'" + "," + p8 + ","
+                       + p9 + "," + "'" + p10 + "'" + "," + "'" + p11 + "'" + ")" +"," + "paragem" + "(" + ultima + "," + ultima1 + "," + ultima2 + 
+                       "," + "'" + ultima3 + "'" + ","
+                       + "'" + ultima4 + "'" + "," + "'" + ultima5 + "'" + "," + "'" + ultima6 + "'" + "," + ultima7 + ","
+                        + ultima8 + "," + "'" + ultima9 + "'" + "," + "'" + ultima10 + "'" + ")" + ").\n");  
                     ultima = p1;
                     ultima1 = p2;
                     ultima2 = p3;
@@ -144,18 +150,18 @@ public class Parser{
                 }
         }
 
-        System.out.println("aresta" + "(" + "paragem" + "(" + ultima + "," + ultima1 + "," + ultima2 + "," + "'" + ultima3.toLowerCase() + "'" + ","
-        + "'" + ultima4.toLowerCase() + "'" + "," + "'" + ultima5.toLowerCase() + "'" + "," + "'" + ultima6.toLowerCase() + "'" + "," + ultima7 + ","
-         + ultima8 + "," + "'" + ultima9.toLowerCase() + "'" + "," + "'" + ultima10.toLowerCase() + "'" + ")" +"," + "paragem" + "(" + p1 + "," + p2 + "," + p3 + 
-         "," + "'" + p4.toLowerCase() + "'" + ","
-         + "'" + p5.toLowerCase() + "'" + "," + "'" + p6.toLowerCase() + "'" + "," + "'" + p7.toLowerCase() + "'" + "," + p8 + ","
-          + p9 + "," + "'" + p10.toLowerCase() + "'" + "," + "'" + p11.toLowerCase() + "'" + ");\n");
-       printWriter.printf("aresta" + "(" + "paragem" + "(" + ultima + "," + ultima1 + "," + ultima2 + "," + "'" + ultima3.toLowerCase() + "'" + ","
-       + "'" + ultima4.toLowerCase() + "'" + "," + "'" + ultima5.toLowerCase() + "'" + "," + "'" + ultima6.toLowerCase() + "'" + "," + ultima7 + ","
-        + ultima8 + "," + "'" + ultima9.toLowerCase() + "'" + "," + "'" + ultima10.toLowerCase() + "'" + ")" +"," + "paragem" + "(" + p1 + "," + p2 + "," + p3 + 
-        "," + "'" + p4.toLowerCase() + "'" + ","
-        + "'" + p5.toLowerCase() + "'" + "," + "'" + p6.toLowerCase() + "'" + "," + "'" + p7.toLowerCase() + "'" + "," + p8 + ","
-         + p9 + "," + "'" + p10.toLowerCase() + "'" + "," + "'" + p11.toLowerCase() + "'" + ")" + ").\n");
+        printWriter.printf("aresta" + "(" + "paragem" + "(" + ultima + "," + ultima1 + "," + ultima2 + "," + "'" + ultima3 + "'" + ","
+        + "'" + ultima4 + "'" + "," + "'" + ultima5 + "'" + "," + "'" + ultima6 + "'" + "," + ultima7 + ","
+         + ultima8 + "," + "'" + ultima9 + "'" + "," + "'" + ultima10 + "'" + ")" +"," + "paragem" + "(" + p1 + "," + p2 + "," + p3 + 
+         "," + "'" + p4 + "'" + ","
+         + "'" + p5 + "'" + "," + "'" + p6 + "'" + "," + "'" + p7 + "'" + "," + p8 + ","
+          + p9 + "," + "'" + p10 + "'" + "," + "'" + p11 + "'" + ")" + ").\n");
+          printWriter.printf("aresta" + "(" + "paragem" + "(" + p1 + "," + p2 + "," + p3 + "," + "'" + p4 + "'" + ","
+          + "'" + p5 + "'" + "," + "'" + p6 + "'" + "," + "'" + p7 + "'" + "," + p8 + ","
+           + p9 + "," + "'" + p10 + "'" + "," + "'" + p11 + "'" + ")" +"," + "paragem" + "(" + ultima + "," + ultima1 + "," + ultima2 + 
+           "," + "'" + ultima3 + "'" + ","
+           + "'" + ultima4 + "'" + "," + "'" + ultima5 + "'" + "," + "'" + ultima6 + "'" + "," + ultima7 + ","
+            + ultima8 + "," + "'" + ultima9 + "'" + "," + "'" + ultima10 + "'" + ")" + ").\n");  
 
         printWriter.close();
         } catch (FileNotFoundException e) {
