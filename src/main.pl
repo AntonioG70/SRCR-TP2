@@ -5,7 +5,6 @@
 :- set_prolog_flag( discontiguous_warnings,off ).
 :- set_prolog_flag( single_var_warnings,off ).
 :- consult('base_de_conhecimento.pl').
-%:- dynamic goal/1.
 /*
 aresta(paragem(183,-103678.36,-96590.26,'bom','fechado dos lados','yes','vimeca',1,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(49,-103705.46,-96673.6,'bom','aberto dos lados','yes','vimeca',1,286,'rua aquilino ribeiro','carnaxide e queijas')).
 aresta(paragem(791,-103705.46,-96673.6,'bom','aberto dos lados','yes','vimeca',2,286,'rua aquilino ribeiro','carnaxide e queijas'),paragem(234,-103725.69,-95975.2,'bom','fechado dos lados','yes','vimeca',1,354,'rua manuel teixeira gomes','carnaxide e queijas')).
@@ -19,15 +18,17 @@ aresta(paragem(183,-103678.36,-96590.26,'bom','fechado dos lados','yes','vimeca'
 :- multifile (-)/1.
 
 %Trajeto entre dois pontos
+%exemplo 97->1009
 trajeto(Origem, Destino, Caminho) :-
-    profundidade(Origem, Destino, [Origem], Caminho).
+    Historico = [Origem],
+    pp(Origem, Destino, Historico, Caminho).
 
-profundidade(Destino, Destino, H, D) :- inverso(H,D).
+pp(Destino, Destino, Historico, D) :- inverso(Historico, D).
 
-profundidade(Origem, Destino, H, D) :-
-    aresta(paragem(Origem,_,_,_,_,_,_,Carreira1,_,_,_), paragem(Prox,_,_,_,_,_,_,Carreira2,_,_,_)),
-    \+ member((Prox,Carreira2), H),
-    profundidade(Prox, Destino, [(Prox, Carreira2)|H], D).
+pp(Origem, Destino, Historico, D) :-
+    aresta(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Prox,_,_,_,_,_,_,_,_,_,_)),
+    \+ member(Prox, Historico),
+    pp(Prox, Destino, [Prox|Historico], D).
 
 %Selecionar apenas algumas das operadoras de transporte para um determinado percurso
 percursoComOperadora(paragem(Origem,_,_,_,_,_,Operadora,_,_,_,_), paragem(Destino,_,_,_,_,_,Operadora2,_,_,_,_), L, C) :-
@@ -58,7 +59,7 @@ profundidadeExcluiOperadora(paragem(Origem,_,_,_,_,_,Operadora,_,_,_,_), paragem
     profundidadeExcluiOperadora(paragem(Prox,_,_,_,_,_,OperadoraProx,_,_,_,_), paragem(Destino,_,_,_,_,_,Operadora2,_,_,_,_), [Prox|H], L, C).
 
 %Identificar quais as paragens com o maior número de carreiras num determinado percurso
-maiorNumeroParagens(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_),L) :-
+maiorNumeroParagens(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), Lista, L) :-
     contaParagens(Origem, N),
     profundidadeConta(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), [(Origem,N)], Lista),
     ordena(Lista, Res),
@@ -71,9 +72,9 @@ profundidadeConta(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_
     aresta(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Prox,_,_,_,_,_,_,_,_,_,_)),
     contaParagens(Prox, N),
     \+ member((Prox,N), H),
-    profundidadeConta(paragem(Prox,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), [(Prox,N)|H], Lista).
+    profundidadeConta(paragem(Prox,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), [(Prox,N)|H], Lista). 
 
-%Escolher o percurso que passe apenas por abrigos com publicidade
+%Escolher o percurso que passe apenas por abrigos com publicidade 183->594
 percursoComPublicidade(paragem(Origem,_,_,_,_,Publicidade,_,_,_,_,_), paragem(Destino,_,_,_,_,Publicidade2,_,_,_,_,_), C) :-
     member(Publicidade,['Yes']),
     member(Publicidade2,['Yes']),
@@ -114,7 +115,7 @@ profundidadeComPontos(paragem(Origem,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_
     profundidadeComPontos(paragem(Prox,_,_,_,_,_,_,_,_,_,_), paragem(Destino,_,_,_,_,_,_,_,_,_,_), [Prox|H], L, C).
 
 %Escolher o percurso mais rápido (usando critério da distância) %183->526
-%goal(526).
+goal(526).
 
 resolve_gulosa_distancia(Nodo,Caminho/Custo) :-   paragem(Nodo,Latitude,Longitude,_,_,_,_,_,_,_,_),
                                         paragem(526,Latitude2,Longitude2,_,_,_,_,_,_,_,_),
@@ -152,7 +153,7 @@ adjacente([Nodo|Caminho]/Custo/_, [ProxNodo,Nodo|Caminho]/NovoCusto/Est) :-
 
 %Escolher o menor percurso (usando critério menor número de paragens)
 %exemplo 185->595
-goal(595).
+%goal(595).
 
 resolve_gulosa_paragens(Nodo,Caminho/Custo) :-  agulosa1([[Nodo]/1],InvCaminho/Custo),
 									            inverso(InvCaminho,Caminho).

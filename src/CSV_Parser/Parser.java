@@ -33,13 +33,9 @@ public class Parser{
             while ((line2 = br2.readLine()) != null) {
 
                 String[] info = line2.split(cvsSplitBy);
-
-                System.out.println("paragem" + "(" + info[0].toLowerCase() + "," + info[1].toLowerCase() + "," +  info[2].toLowerCase() + "," + info[3].toLowerCase() + "," + "'" +
-                info[4].toLowerCase() + "'" + "," + info[5].toLowerCase() + "," + "'" + info[6].toLowerCase() + "'" + "," + info[7].toLowerCase() + "," + info[8].toLowerCase() + "," + "'" +
-                info[9].toLowerCase() + "'" + "," + "'" + info[10].toLowerCase() + "'" + ").\n");
-                printWriter.printf("paragem" + "(" + info[0].toLowerCase() + "," + info[1].toLowerCase() + "," +  info[2].toLowerCase() + "," +  "'" + info[3].toLowerCase() + "'" + "," + "'" +
-                info[4].toLowerCase() + "'" + "," + "'" + info[5].toLowerCase() + "'" + "," + "'" + info[6].toLowerCase() + "'" + "," + info[7].toLowerCase() + "," + info[8].toLowerCase() + "," + "'" +
-                info[9].toLowerCase() + "'" + "," + "'" + info[10].toLowerCase() + "'" + ").\n");
+                printWriter.printf("paragem" + "(" + info[0] + "," + info[1] + "," +  info[2] + "," +  "'" + info[3] + "'" + "," + "'" +
+                info[4] + "'" + "," + "'" + info[5] + "'" + "," + "'" + info[6] + "'" + "," + info[7] + "," + info[8] + "," + "'" +
+                info[9] + "'" + "," + "'" + info[10] + "'" + ").\n");
                 
             }
             
@@ -76,13 +72,6 @@ public class Parser{
             while ((line = br.readLine()) != null) {
                 
                 if(carreira.equals(carreira2)){
-
-                    System.out.println("aresta" + "(" + "paragem" + "(" + ultima + "," + ultima1 + "," + ultima2 + "," + "'" + ultima3.toLowerCase() + "'" + ","
-                     + "'" + ultima4.toLowerCase() + "'" + "," + "'" + ultima5.toLowerCase() + "'" + "," + "'" + ultima6.toLowerCase() + "'" + "," + ultima7 + ","
-                      + ultima8 + "," + "'" + ultima9.toLowerCase() + "'" + "," + "'" + ultima10.toLowerCase() + "'" + ")" +"," + "paragem" + "(" + p1 + "," + p2 + "," + p3 + 
-                      "," + "'" + p4.toLowerCase() + "'" + ","
-                      + "'" + p5.toLowerCase() + "'" + "," + "'" + p6.toLowerCase() + "'" + "," + "'" + p7.toLowerCase() + "'" + "," + p8 + ","
-                       + p9 + "," + "'" + p10.toLowerCase() + "'" + "," + "'" + p11.toLowerCase() + "'" + ");\n");
                     printWriter.printf("aresta" + "(" + "paragem" + "(" + ultima + "," + ultima1 + "," + ultima2 + "," + "'" + ultima3 + "'" + ","
                     + "'" + ultima4 + "'" + "," + "'" + ultima5 + "'" + "," + "'" + ultima6 + "'" + "," + ultima7 + ","
                      + ultima8 + "," + "'" + ultima9 + "'" + "," + "'" + ultima10 + "'" + ")" +"," + "paragem" + "(" + p1 + "," + p2 + "," + p3 + 
